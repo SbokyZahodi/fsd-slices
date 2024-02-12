@@ -1,14 +1,25 @@
-## FSD-Slices: A Simple Slice Generator
+# FSD-Slices: A Versatile Slice Generator
 
+Easily generate code slices for your project with just a few clicks. Select from pre-defined templates or create your own custom setup.
 
-### Just select template in extension settings
+## Getting Started
 
-### OR use custom template
+### Choose a Template
 
-### Custom template
+Upon installation, select your desired framework template from the extension settings. Currently supported templates include:
 
-- **Initiate by creating a new folder in root directory:** Name this directory `_slice` to begin.
+- **React**
+- **Vue**
+- **Svelte**
 
-- **Populate your folder:** Deposit all the custom files you wish to include into the `_slice` folder.
+Each template provides the following file structure:
 
-- **Utilize dynamic naming:** Seamlessly access the input name using the `recode(name)` variable within your files.
+```plaintext
+api/
+    index.ts
+model/
+    index.ts
+ui/
+    [name].vue (.tsx / .svelte - available depending on the chosen template)
+    index.ts
+index.ts
