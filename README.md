@@ -23,3 +23,46 @@ ui/
     [name].vue (.tsx / .svelte - available depending on the chosen template)
     index.ts
 index.ts
+```
+
+## Custom Template
+
+To create your own custom template, follow these steps:
+
+1. **Create a New Folder**:
+   Start by creating a new folder at the root directory of your project. Name this directory `_slice` to indicate it's the starting point for your custom slice template.
+
+2. **Populate the Template Folder**:
+   Add all the custom files that you want to be part of your template into the `_slice` folder. These can include configuration files, component files, style sheets, or any other resources integral to your custom template.
+
+3. **Dynamic Naming**:
+   Take advantage of dynamic naming within your files. You can access the user-inputted name by using the `recode(name)`. This will allow for automatic renaming of components or files based on user input during the slice generation process.
+
+
+## Example
+
+files inside `_slice`
+
+```plaintext
+api/
+    index.ts
+model/
+    index.ts
+ui/
+    [name].vue
+    index.ts
+index.ts
+```
+
+
+[name].vue
+```
+<template>
+    <div>
+        recode(name)
+    </div>
+</template>
+
+```
+
+

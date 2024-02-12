@@ -4,7 +4,7 @@ import { recode } from './recode'
 
 function registerCommand(name: string, context: ExtensionContext) {
   return commands.registerCommand(`extension.${name}`, async (uri: Uri) => {
-    const template = workspace.getConfiguration('fsd-files').get<string>('template')
+    const template = workspace.getConfiguration('fsd-slices').get<string>('template')
 
     const response = await window.showInputBox({
       prompt: 'Enter filename',
@@ -24,13 +24,15 @@ function registerCommand(name: string, context: ExtensionContext) {
 
     const root = workspace.workspaceFolders[0]?.uri.fsPath
 
+    console.log(root)
+
     if (template === 'custom')
       await recode(`${root}/_slice`, `${uri.fsPath}/${response}`, response)
 
     else
       await recode(`${context.extensionPath}/_recode/${template}`, `${uri.fsPath}/${response}`, response)
 
-    window.showWarningMessage('File created successfully!')
+    await window.showWarningMessage('File created successfully!')
   })
 }
 

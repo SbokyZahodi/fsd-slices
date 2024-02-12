@@ -1,13 +1,19 @@
 {
   "publisher": "SbokyZahodi",
-  "name": "fsd-files",
+  "name": "fsd-slices",
   "displayName": "FSD Slices Generator",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "packageManager": "yarn@3.5.0",
   "description": "Fast way to create slices",
   "author": "Denis Dmitriev <https://github.com/SbokyZahodi>",
+
   "license": "MIT",
+  "homepage": "https://github.com/SbokyZahodi/fsd-slices",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SbokyZahodi/fsd-slices"
+  },
   "categories": [
     "Other"
   ],
@@ -41,7 +47,7 @@
 
     "configuration": {
       "properties": {
-        "fsd-files.template": {
+        "fsd-slices.template": {
           "type": "string",
           "default": "vue",
           "enum": ["vue", "react", "svelte", "custom"],
@@ -63,7 +69,6 @@
     "typecheck": "tsc --noEmit",
     "release": "bumpp && nr publish"
   },
-  "dependencies": {},
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.1",
     "@antfu/ni": "^0.21.9",
