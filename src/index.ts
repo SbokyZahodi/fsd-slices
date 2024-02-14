@@ -24,8 +24,6 @@ function registerCommand(name: string, context: ExtensionContext) {
 
     const root = workspace.workspaceFolders[0]?.uri.fsPath
 
-    console.log(root)
-
     if (template === 'custom')
       await recode(`${root}/_slice`, `${uri.fsPath}/${response}`, response)
 
