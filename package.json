@@ -2,7 +2,7 @@
   "publisher": "SbokyZahodi",
   "name": "fsd-slices",
   "displayName": "FSD Slices Generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "packageManager": "yarn@3.5.0",
   "description": "Fast way to create slices",
@@ -49,11 +49,28 @@
       "properties": {
         "fsd-slices.template": {
           "type": "string",
-          "default": "vue",
-          "enum": ["vue", "react", "svelte", "custom"],
+          "default": "react",
+          "enum": ["vue", "react", "svelte"],
           "description": "Select template"
-        }
+        },
 
+        "fsd-slices.custom": {
+          "type": "boolean",
+          "default": "false",
+          "description": "Use custom template"
+        },
+
+        "fsd-slices.includes": {
+          "type": "string",
+          "default": "api, model, ui, config",
+          "description": "Folders that includes by default (if confugurable / custom is true then this option will be ignored)"
+        },
+
+        "fsd-slices.configurable": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Ask me what to include in the slice (api, config, model, ui)"
+        }
       }
     }
 

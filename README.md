@@ -25,6 +25,27 @@ ui/
 index.ts
 ```
 
+### Configuration Options `ctrl+, => fsd`
+
+- #### `fsd-slices.custom`
+  - **Type**: `boolean`
+  - **Default**: `false`
+  - **Description**: Use custom template
+
+- #### `fsd-slices.configurable`
+  - **Type**: `boolean`
+  - **Default**: `true`
+  - **Description**: Ask me what to include in the slice (api, config, model, ui)
+
+
+- #### `fsd-slices.include`
+  - **Type**: `string`
+  - **Default**: `api, model, ui, config`
+  - **Description**: Folders that included to the slice by default (if configurable / custom is true then this option will be ignored)
+
+
+
+
 ## Custom Template
 
 To create your own custom template, follow these steps:
@@ -64,5 +85,6 @@ index.ts
 </template>
 
 ```
+
 
 
