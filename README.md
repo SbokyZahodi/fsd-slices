@@ -34,7 +34,7 @@ index.ts
 
 - #### `fsd-slices.configurable`
   - **Type**: `boolean`
-  - **Default**: `true`
+  - **Default**: `false`
   - **Description**: Ask me what to include in the slice (api, config, model, ui)
 
 
