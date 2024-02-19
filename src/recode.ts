@@ -19,6 +19,7 @@ export async function recode(source: string, target: string, name: string, inclu
           continue
 
         const curTarget = path.join(target, file)
+
         await recode(curSource, curTarget, name, include, typescript)
       }
       else {

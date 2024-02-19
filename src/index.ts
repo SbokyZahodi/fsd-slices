@@ -1,10 +1,11 @@
+import path from 'node:path'
 import type { ExtensionContext, QuickPickItem, Uri } from 'vscode'
 import { commands, window, workspace } from 'vscode'
 import { recode } from './recode'
 
 function registerCommand(name: string, context: ExtensionContext) {
   return commands.registerCommand(`extension.${name}`, async (uri: Uri) => {
-    const template = workspace.getConfiguration('fsd-slices').get<string>('template')
+    const template = workspace.getConfiguration('fsd-slices').get<string>('template') as string
     const configurable = workspace.getConfiguration('fsd-slices').get<boolean>('configurable')
     const isCustom = workspace.getConfiguration('fsd-slices').get<boolean>('custom')
     const includedFolders = workspace.getConfiguration('fsd-slices').get<string>('includes')?.split(', ')
@@ -46,14 +47,15 @@ function registerCommand(name: string, context: ExtensionContext) {
 
     if (isCustom) {
       const root = workspace.workspaceFolders[0]?.uri.fsPath as string
-      const from = `${root}/_slice`
-      const to = `${uri.fsPath}/${response}`
+
+      const from = path.join(root, '_slice')
+      const to = path.join(uri.fsPath, response)
 
       await recode(from, to, response, await getExcludeFolders())
     }
     else {
-      const from = `${context.extensionPath}/_recode/${template}`
-      const to = `${uri.fsPath}/${response}`
+      const from = path.join(context.extensionPath, '_recode', template)
+      const to = path.join(uri.fsPath, response)
 
       await recode(from, to, response, await getExcludeFolders(), typescript)
     }
