@@ -70,6 +70,11 @@
           "type": "boolean",
           "default": "true",
           "description": "Ask me what to include in the slice (api, config, model, ui)"
+        },
+        "fsd-slices.typescript": {
+          "type": "boolean",
+          "default": "true",
+          "description": "Generate typescript files instead of javascript?"
         }
       }
     }

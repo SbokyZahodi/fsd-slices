@@ -8,6 +8,7 @@ function registerCommand(name: string, context: ExtensionContext) {
     const configurable = workspace.getConfiguration('fsd-slices').get<boolean>('configurable')
     const isCustom = workspace.getConfiguration('fsd-slices').get<boolean>('custom')
     const includedFolders = workspace.getConfiguration('fsd-slices').get<string>('includes')?.split(', ')
+    const typescript = workspace.getConfiguration('fsd-slices').get<boolean>('typescript') as boolean
 
     const options: QuickPickItem[] = [
       { label: 'api', picked: true },
@@ -54,7 +55,7 @@ function registerCommand(name: string, context: ExtensionContext) {
       const from = `${context.extensionPath}/_recode/${template}`
       const to = `${uri.fsPath}/${response}`
 
-      await recode(from, to, response, await getExcludeFolders())
+      await recode(from, to, response, await getExcludeFolders(), typescript)
     }
 
     window.showInformationMessage('Slice generated')

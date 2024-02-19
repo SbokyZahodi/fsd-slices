@@ -3,7 +3,7 @@ import path from 'node:path'
 import replacer from './utils/replacer'
 import toCamelCase from './utils/toCamelCase'
 
-export async function recode(source: string, target: string, name: string, include: string[]): Promise<void> {
+export async function recode(source: string, target: string, name: string, include: string[], typescript?: boolean): Promise<void> {
   await fsPromises.mkdir(target, { recursive: true }).catch(() => {})
 
   const isSourceDirectory = (await fsPromises.lstat(source)).isDirectory()
@@ -19,12 +19,16 @@ export async function recode(source: string, target: string, name: string, inclu
           continue
 
         const curTarget = path.join(target, file)
-        await recode(curSource, curTarget, name, include)
+        await recode(curSource, curTarget, name, include, typescript)
       }
       else {
         const targetFile = path.join(target, file)
 
-        const changedName = targetFile.replace('[name]', toCamelCase(name))
+        let changedName = targetFile.replace('[name]', toCamelCase(name))
+
+        if (!typescript && typeof typescript !== 'undefined')
+          changedName = changedName.replace('.ts', '.js')
+
         await fsPromises.copyFile(curSource, changedName)
         await replacer(changedName, name, include)
       }

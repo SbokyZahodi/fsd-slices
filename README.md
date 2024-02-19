@@ -38,6 +38,10 @@ index.ts
   - **Default**: `react`
   - **Description**: Template that used to generate slice
 
+- #### `fsd-slices.typescript`
+  - **Type**: `boolean`
+  - **Default**: `true`
+  - **Description**: Generate typescript files instead of javascript?
 
 
 - #### `fsd-slices.custom`
@@ -55,7 +59,6 @@ index.ts
   - **Type**: `string`
   - **Default**: `api, model, ui, config`
   - **Description**: Folders that included to the slice by default (if configurable / custom is true then this option will be ignored)
-
 
 
 
