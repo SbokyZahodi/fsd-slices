@@ -2,6 +2,11 @@
 
 Easily generate FSD slices for your project with just a few clicks. Select from pre-defined templates or create your own custom setup.
 
+![Preview](https://raw.githubusercontent.com/SbokyZahodi/fsd-slices/main/res/preview.gif)
+
+
+
+
 ## Getting Started
 
 ### Choose a Template
@@ -26,6 +31,14 @@ index.ts
 ```
 
 ### Configuration Options `ctrl+, => fsd`
+
+
+- #### `fsd-slices.template`
+  - **Type**: `string`
+  - **Default**: `react`
+  - **Description**: Template that used to generate slice
+
+
 
 - #### `fsd-slices.custom`
   - **Type**: `boolean`
