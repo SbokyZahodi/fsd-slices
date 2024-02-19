@@ -1,6 +1,7 @@
 import { promises as fsPromises } from 'node:fs'
 import path from 'node:path'
 import replacer from './utils/replacer'
+import toCamelCase from './utils/toCamelCase'
 
 export async function recode(source: string, target: string, name: string, include: string[]): Promise<void> {
   await fsPromises.mkdir(target, { recursive: true }).catch(() => {})
@@ -22,14 +23,10 @@ export async function recode(source: string, target: string, name: string, inclu
       }
       else {
         const targetFile = path.join(target, file)
-        const changedName = targetFile.replace('[name]', name)
+
+        const changedName = targetFile.replace('[name]', toCamelCase(name))
         await fsPromises.copyFile(curSource, changedName)
-
         await replacer(changedName, name, include)
-
-        const data = await fsPromises.readFile(changedName, 'utf-8')
-        const result = data.replaceAll('recode(name)', name)
-        await fsPromises.writeFile(changedName, result, 'utf-8')
       }
     }
   }

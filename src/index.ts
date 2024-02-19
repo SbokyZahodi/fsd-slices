@@ -56,6 +56,8 @@ function registerCommand(name: string, context: ExtensionContext) {
 
       await recode(from, to, response, await getExcludeFolders())
     }
+
+    window.showInformationMessage('Slice generated')
   })
 }
 
