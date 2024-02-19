@@ -1,6 +1,6 @@
 # FSD-Slices: A Versatile Slice Generator
 
-Easily generate code slices for your project with just a few clicks. Select from pre-defined templates or create your own custom setup.
+Easily generate FSD slices for your project with just a few clicks. Select from pre-defined templates or create your own custom setup.
 
 ## Getting Started
 
