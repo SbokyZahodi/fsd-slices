@@ -38,15 +38,8 @@ function registerCommand(name: string, context: ExtensionContext) {
       }
     }
 
-    const regex = /^[a-zA-Z]+$/
-
     if (!response) {
       window.showErrorMessage('Please enter a filename')
-      return
-    }
-
-    if (!regex.test(response)) {
-      window.showErrorMessage('Please enter a valid filename')
       return
     }
 
