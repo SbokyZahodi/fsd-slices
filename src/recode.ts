@@ -14,6 +14,9 @@ export async function recode(source: string, target: string, name: string, inclu
       const curSource = path.join(source, file)
       const isDirectory = (await fsPromises.lstat(curSource)).isDirectory()
 
+      if (file === '.gitkeep')
+        continue
+
       if (isDirectory) {
         if (!include.includes(file))
           continue

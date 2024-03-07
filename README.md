@@ -16,6 +16,7 @@ Upon installation, select your desired framework template from the extension set
 - **React**
 - **Vue**
 - **Svelte**
+- **minimal** (only module index and folders)
 
 Each template provides the following file structure:
 
