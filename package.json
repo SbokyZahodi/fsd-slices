@@ -2,7 +2,7 @@
   "publisher": "SbokyZahodi",
   "name": "fsd-slices",
   "displayName": "FSD Slices Generator",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "packageManager": "yarn@3.5.0",
   "description": "Fast way to create slices",
@@ -69,12 +69,12 @@
         "fsd-slices.configurable": {
           "type": "boolean",
           "default": "true",
-          "description": "Ask me what to include in the slice (api, config, model, ui)"
+          "description": "Ask me what to include in the slice"
         },
         "fsd-slices.typescript": {
           "type": "boolean",
           "default": "true",
-          "description": "Generate typescript files instead of javascript"
+          "description": "Use typescript"
         }
       }
     }
