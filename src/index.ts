@@ -3,74 +3,53 @@ import type { ExtensionContext, QuickPickItem, Uri } from 'vscode'
 import { commands, window, workspace } from 'vscode'
 import { recode } from './recode'
 
-function registerCommand(name: string, context: ExtensionContext) {
+function generateSlice(name: string, context: ExtensionContext) {
   return commands.registerCommand(`extension.${name}`, async (uri: Uri) => {
     const template = workspace.getConfiguration('fsd-slices').get<string>('template') as string
-    const configurable = workspace.getConfiguration('fsd-slices').get<boolean>('configurable')
-    const isCustom = workspace.getConfiguration('fsd-slices').get<boolean>('custom')
-    const includedFolders = workspace.getConfiguration('fsd-slices').get<string>('includes')?.split(', ')
+    const isConfigurable = workspace.getConfiguration('fsd-slices').get<boolean>('configurable')
+    const includedFolders = workspace.getConfiguration('fsd-slices').get<string>('includes') as string
     const isTypescript = workspace.getConfiguration('fsd-slices').get<boolean>('typescript') as boolean
 
-    const options: QuickPickItem[] = [
-      { label: 'api', picked: true },
-      { label: 'model', picked: true },
-      { label: 'ui', picked: true },
-      { label: 'config', picked: false },
-    ]
-
-    const response = await window.showInputBox({
-      prompt: 'Enter filename',
+    const sliceName = await window.showInputBox({
+      prompt: 'Enter slice name',
     })
 
-    async function getExcludeFolders() {
-      const base = ['api', 'model', 'ui', 'config']
-
-      if (isCustom)
-        return base
-
-      if (configurable) {
-        const response = await window.showQuickPick(options, {
-          canPickMany: true, //
-          placeHolder: 'Select folders to include in the generation',
-        })
-        return response?.map(item => item.label) ?? base
-      }
-      else {
-        return includedFolders?.length ? includedFolders : base
-      }
-    }
-
-    if (!response) {
-      window.showErrorMessage('Please enter a filename')
+    if (!sliceName) {
+      window.showErrorMessage('Please enter a slice name')
       return
     }
 
-    if (isCustom) {
-      const root = workspace.getWorkspaceFolder(uri)?.uri.fsPath as string
+    const source = path.join(context.extensionPath, '_templates', template)
+    const destination = path.join(uri.fsPath, sliceName)
 
-      if (!root) {
-        window.showErrorMessage('Workspace not found')
-        return
-      }
+    await recode(source, destination, sliceName, await getExcludeFoldersList(isConfigurable, includedFolders.split(', ')), isTypescript)
 
-      const from = path.join(root, '_slice')
-      const to = path.join(uri.fsPath, response)
-
-      await recode(from, to, response, await getExcludeFolders())
-    }
-    else {
-      const from = path.join(context.extensionPath, '_recode', template)
-      const to = path.join(uri.fsPath, response)
-
-      await recode(from, to, response, await getExcludeFolders(), isTypescript)
-    }
-
-    window.showInformationMessage('Slice generated')
+    window.showInformationMessage('Slice generated!')
   })
 }
 
+async function getExcludeFoldersList(isConfigurable: boolean = false, includedFolders: string[] = []) {
+  const options: QuickPickItem[] = [
+    { label: 'api', picked: true },
+    { label: 'model', picked: true },
+    { label: 'ui', picked: true },
+    { label: 'config', picked: false },
+  ]
+
+  const base = ['api', 'model', 'ui', 'config']
+
+  if (!isConfigurable)
+    return includedFolders?.length ? includedFolders : base
+
+  const foldersToInclude = await window.showQuickPick(options, {
+    canPickMany: true, //
+    placeHolder: 'What folders to include?',
+  })
+  return foldersToInclude?.map(item => item.label) ?? base
+}
+
 export async function activate(context: ExtensionContext) {
-  const slice = registerCommand('GenerateSlice', context)
+  const slice = generateSlice('GenerateSlice', context)
 
   context.subscriptions.push(slice)
 }

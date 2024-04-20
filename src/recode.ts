@@ -7,6 +7,7 @@ export async function recode(source: string, target: string, name: string, inclu
   await fsPromises.mkdir(target, { recursive: true }).catch(() => {})
 
   const isSourceDirectory = (await fsPromises.lstat(source)).isDirectory()
+
   if (isSourceDirectory) {
     const files = await fsPromises.readdir(source)
 
