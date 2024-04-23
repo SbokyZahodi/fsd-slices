@@ -3,40 +3,41 @@ import path from 'node:path'
 import replacer from './utils/replacer'
 import toCamelCase from './utils/toCamelCase'
 
-export async function recode(source: string, target: string, name: string, include: string[], typescript?: boolean): Promise<void> {
-  await fsPromises.mkdir(target, { recursive: true }).catch(() => {})
+export async function recode(source: string, target: string, name: string, include: string[], typescript: boolean): Promise<void> {
+  await fsPromises.mkdir(target, { recursive: true })
 
   const isSourceDirectory = (await fsPromises.lstat(source)).isDirectory()
 
-  if (isSourceDirectory) {
-    const files = await fsPromises.readdir(source)
+  if (!isSourceDirectory)
+    return
 
-    for (const file of files) {
-      const curSource = path.join(source, file)
-      const isDirectory = (await fsPromises.lstat(curSource)).isDirectory()
+  const files = await fsPromises.readdir(source)
 
-      if (file === '.gitkeep')
+  for (const fileName of files) {
+    const curSource = path.join(source, fileName)
+    const isDirectory = (await fsPromises.lstat(curSource)).isDirectory()
+
+    if (fileName === '.gitkeep')
+      continue
+
+    if (isDirectory) {
+      if (!include.includes(fileName))
         continue
 
-      if (isDirectory) {
-        if (!include.includes(file))
-          continue
+      const curTarget = path.join(target, fileName)
 
-        const curTarget = path.join(target, file)
+      await recode(curSource, curTarget, name, include, typescript)
+    }
+    else {
+      const targetFile = path.join(target, fileName)
 
-        await recode(curSource, curTarget, name, include, typescript)
-      }
-      else {
-        const targetFile = path.join(target, file)
+      let changedName = targetFile.replace('[name]', toCamelCase(name))
 
-        let changedName = targetFile.replace('[name]', toCamelCase(name))
+      if (!typescript)
+        changedName = changedName.replace('.ts', '.js')
 
-        if (!typescript && typeof typescript !== 'undefined')
-          changedName = changedName.replace('.ts', '.js')
-
-        await fsPromises.copyFile(curSource, changedName)
-        await replacer(changedName, name, include)
-      }
+      await fsPromises.copyFile(curSource, changedName)
+      await replacer(changedName, name, include)
     }
   }
 }
