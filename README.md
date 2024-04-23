@@ -1,11 +1,8 @@
-# FSD-Slices: A Versatile Slice Generator
+# FSD-Slices: The Slice Generator
 
-Easily generate FSD slices for your project with just a few clicks. Select from pre-defined templates or create your own custom setup.
+### Easily generate FSD slices for your project with just a few clicks.
 
 ![Preview](https://raw.githubusercontent.com/SbokyZahodi/fsd-slices/main/res/preview.gif)
-
-
-
 
 ## Getting Started
 
@@ -31,8 +28,7 @@ ui/
 index.ts
 ```
 
-### Configuration Options `ctrl+, => fsd`
-
+### Configuration
 
 - #### `fsd-slices.template`
   - **Type**: `string`

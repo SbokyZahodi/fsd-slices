@@ -5,10 +5,12 @@ import { recode } from './recode'
 
 function generateSlice(name: string, context: ExtensionContext) {
   return commands.registerCommand(`extension.${name}`, async (uri: Uri) => {
-    const template = workspace.getConfiguration('fsd-slices').get<string>('template') as string
-    const isConfigurable = workspace.getConfiguration('fsd-slices').get<boolean>('configurable')
-    const includedFolders = workspace.getConfiguration('fsd-slices').get<string>('includes') as string
-    const isTypescript = workspace.getConfiguration('fsd-slices').get<boolean>('typescript') as boolean
+    const config = workspace.getConfiguration('fsd-slices')
+
+    const template = config.get<string>('template') as string
+    const isConfigurable = config.get<boolean>('configurable') as boolean
+    const includedFolders = config.get<string>('includes') as string
+    const isTypescript = config.get<boolean>('typescript') as boolean
 
     const sliceName = await window.showInputBox({
       prompt: 'Enter slice name',
@@ -42,7 +44,7 @@ async function getExcludeFoldersList(isConfigurable: boolean = false, includedFo
     return includedFolders?.length ? includedFolders : base
 
   const foldersToInclude = await window.showQuickPick(options, {
-    canPickMany: true, //
+    canPickMany: true,
     placeHolder: 'What folders to include?',
   })
   return foldersToInclude?.map(item => item.label) ?? base
