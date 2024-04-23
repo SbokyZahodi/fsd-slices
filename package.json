@@ -2,7 +2,7 @@
   "publisher": "SbokyZahodi",
   "name": "fsd-slices",
   "displayName": "FSD Slices Generator",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "packageManager": "yarn@3.5.0",
   "description": "Fast way to create slices",
@@ -18,7 +18,7 @@
     "Other"
   ],
   "main": "./dist/index.js",
-  "icon": "res/icon.png",
+  "icon": "res/icon.jpg",
   "files": [
     "dist"
   ],
