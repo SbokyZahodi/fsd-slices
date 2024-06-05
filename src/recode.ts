@@ -1,43 +1,59 @@
 import { promises as fsPromises } from 'node:fs'
 import path from 'node:path'
-import replacer from './utils/replacer'
-import toCamelCase from './utils/toCamelCase'
+import contentReplacer from './utils/contentReplacer'
+import createModule from './utils/createModule'
+import filenameReplacer from './utils/filenameReplacer'
+import filesList from './utils/filesList'
+import foldersList from './utils/foldersList'
 
-export async function recode(source: string, target: string, name: string, include: string[], typescript: boolean): Promise<void> {
-  await fsPromises.mkdir(target, { recursive: true })
+interface IOptions {
+  source: string
+  target: string
+  sliceName: string
+  exclude: string[]
+  typescript: boolean | undefined
+  root?: boolean
+}
 
-  const isSourceDirectory = (await fsPromises.lstat(source)).isDirectory()
+export async function recode({ source, target, sliceName, exclude, typescript, root = false }: IOptions): Promise<void> {
+  await fsPromises.mkdir(target)
 
-  if (!isSourceDirectory)
-    return
+  const sliceFiles = new Set(await filesList(source))
+  const sliceFolders = new Set(await foldersList(source))
 
-  const files = await fsPromises.readdir(source)
+  // Delete folders that should be excluded
+  if (exclude.length && root) {
+    for (const folder of exclude) {
+      sliceFolders.delete(folder)
+      sliceFiles.delete(folder)
+    }
+  }
 
-  for (const fileName of files) {
-    const curSource = path.join(source, fileName)
-    const isDirectory = (await fsPromises.lstat(curSource)).isDirectory()
+  if (root && !sliceFiles.has('index.ts') && !sliceFiles.has('index.js') && sliceFolders.size)
+    await createModule(target, Array.from(sliceFolders), typescript)
 
+  for (const fileName of sliceFiles) {
     if (fileName === '.gitkeep')
       continue
 
+    const curSource = path.join(source, fileName)
+    const isDirectory = (await fsPromises.lstat(curSource)).isDirectory()
+    const destination = path.join(target, fileName)
+
     if (isDirectory) {
-      if (!include.includes(fileName))
-        continue
-
-      const curTarget = path.join(target, fileName)
-
-      await recode(curSource, curTarget, name, include, typescript)
+      await recode({
+        source: curSource,
+        target: destination,
+        sliceName,
+        exclude,
+        typescript,
+      })
     }
+
     else {
-      const targetFile = path.join(target, fileName)
-
-      let changedName = targetFile.replace('[name]', toCamelCase(name))
-
-      if (!typescript)
-        changedName = changedName.replace('.ts', '.js')
-
-      await fsPromises.copyFile(curSource, changedName)
-      await replacer(changedName, name, include)
+      const replacedPath = filenameReplacer(destination, sliceName, typescript)
+      await fsPromises.copyFile(curSource, replacedPath)
+      await contentReplacer(replacedPath, sliceName, typescript)
     }
   }
 }

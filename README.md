@@ -38,7 +38,7 @@ index.ts
 - #### `fsd-slices.typescript`
   - **Type**: `boolean`
   - **Default**: `true`
-  - **Description**: Generate typescript files instead of javascript?
+  - **Description**: Generate typescript files instead of javascript
 
 
 - #### `fsd-slices.configurable`
@@ -47,7 +47,49 @@ index.ts
   - **Description**: Ask me what to include in the slice (api, config, model, ui)
 
 
-- #### `fsd-slices.include`
+- #### `fsd-slices.exclude`
   - **Type**: `string`
-  - **Default**: `api, model, ui, config`
-  - **Description**: Folders that included to the slice by default (if configurable / custom is true then this option will be ignored)
+  - **Default**: `''`
+  - **Example**: `'config, model'`
+  - **Description**: Folders that excluded from the slice by default.
+
+
+## Custom Template
+
+To create your own custom template, follow these steps:
+
+1. **Create a New Folder**:
+   Start by creating a new folder at the root directory of your project. Name this directory `_slice` to indicate it's the starting point for your custom slice template.
+
+2. **Populate the Template Folder**:
+   Add all the custom files that you want to be part of your template into the `_slice` folder. These can include configuration files, component files, style sheets, or any other resources integral to your custom template.
+
+3. **Dynamic Naming**:
+  You can access to slice name with `slice` and `[name]` (for filename)
+
+### Custom template example
+
+files inside `_slice`
+
+```plaintext
+api/
+    index.ts
+model/
+    index.ts
+ui/
+    [name].vue
+    index.ts
+index.ts
+```
+
+
+[name].vue
+```
+<template>
+    <div>
+        slice
+    </div>
+</template>
+```
+
+

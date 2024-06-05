@@ -1,5 +1,5 @@
 <template>
     <div>
-        recode(name)
+        slice
     </div>
 </template>
