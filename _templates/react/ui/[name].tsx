@@ -1,5 +1,5 @@
-export default function recode(name)() {
+export default function slice() {
   return (
-    <div>recode(name)</div>
+    <div>slice</div>
   )
 }

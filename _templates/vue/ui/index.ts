@@ -1,3 +1,3 @@
-import recode(name) from './recode(name).vue'
+import slice from './slice.vue'
 
-export { recode(name) }
+export { slice }

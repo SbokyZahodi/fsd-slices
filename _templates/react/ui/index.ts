@@ -1,3 +1,3 @@
-import recode(name) from './recode(name).tsx'
+import slice from './slice.tsx'
 
-export { recode(name) }
+export { slice }

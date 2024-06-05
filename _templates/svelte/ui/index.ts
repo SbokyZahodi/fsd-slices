@@ -1,3 +1,3 @@
-import recode(name) from './recode(name).svelte'
+import slice from './slice.svelte'
 
-export { recode(name) }
+export { slice }
