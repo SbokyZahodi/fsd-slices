@@ -1,12 +1,19 @@
 import { writeFile } from 'node:fs'
 import path from 'node:path'
+import useConfig from '../config/useConfig'
 
 /** Generate module index file from a list of files */
-export default (destination: string, folders: string[], typescript: boolean = false) => {
+export default (destination: string, folders: string[]) => {
   return new Promise<void>((resolve, reject) => {
-    const indexFile = path.join(destination, typescript ? 'index.ts' : 'index.js')
+    const { config } = useConfig()
+
+    const indexFile = path.join(destination, config.isTypescript ? 'index.ts' : 'index.js')
 
     let content = ''
+
+    if (!folders.length)
+      content = `export { }`
+
     for (const folder of folders)
       content += `export * from './${folder}'\n`
 

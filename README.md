@@ -4,6 +4,10 @@
 
 ![Preview](https://raw.githubusercontent.com/SbokyZahodi/fsd-slices/main/res/preview.gif)
 
+## Features
+### 🍰 **Create Slices** (custom or preset)
+### 🎨 **Create Segments**
+
 ## Getting Started
 
 ### Choose a Template
