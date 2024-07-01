@@ -2,7 +2,7 @@
   "publisher": "SbokyZahodi",
   "name": "fsd-slices",
   "displayName": "FSD Slices Generator",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "private": false,
   "packageManager": "yarn@3.5.0",
   "description": "Fast way to create slices",
@@ -31,6 +31,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "extension.GenerateSegment",
+        "title": "FSD - Generate Segment"
+      },
+      {
         "command": "extension.GenerateSlice",
         "title": "FSD - Generate Slice"
       }
@@ -39,6 +43,11 @@
       "explorer/context": [
         {
           "command": "extension.GenerateSlice",
+          "when": "explorerResourceIsFolder",
+          "group": "2_workspace"
+        },
+        {
+          "command": "extension.GenerateSegment",
           "when": "explorerResourceIsFolder",
           "group": "2_workspace"
         }

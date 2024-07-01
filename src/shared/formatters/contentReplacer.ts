@@ -1,13 +1,16 @@
 import { promises as fsPromises } from 'node:fs'
-import toCamelCase from './toCamelCase'
+import toCamelCase from '../../utils/../shared/formatters/toCamelCase'
+import useConfig from '../config/useConfig'
 
-export default async (filePath: string, name: string, typescript: boolean = false) => {
+export default async (filePath: string, name: string) => {
   const data = await fsPromises.readFile(filePath, 'utf-8')
+
+  const { config } = useConfig()
 
   const withReplacedName = data.replaceAll('slice', toCamelCase(name))
   let withReplacedExtension = withReplacedName
 
-  if (typescript)
+  if (config.isTypescript)
     withReplacedExtension = withReplacedExtension.replaceAll('.js', '.ts')
   else
     withReplacedExtension = withReplacedExtension.replaceAll('.ts', '.js')
